@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class MessagesServices {
+  //create an instance of firebaseMessaging
   final firebase = FirebaseMessaging.instance;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
+  //this define the android notification channel
   static const AndroidNotificationChannel androidNotificationChannel =
       AndroidNotificationChannel(
         "high_importance_channel",
@@ -14,6 +17,7 @@ class MessagesServices {
         importance: Importance.high,
       );
 
+  ///this is used for giving permission from user for notification
   Future<void> messagePermission() async {
     final settings = await firebase.requestPermission();
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
@@ -22,15 +26,26 @@ class MessagesServices {
         AuthorizationStatus.provisional) {
       debugPrint("Notifications enabled (silent mode)");
     } else {
-      debugPrint("User denied to gain notification of this app");
+      debugPrint("User denied to get notification of this app");
     }
   }
 
+  //this is used for getting the current device token
   Future<String?> getToken() async {
     return await firebase.getToken();
   }
 
+  //this will show the notification
   Future<void> showNotification(RemoteMessage message) async {
+    //this define the notification detail for ios
+    final DarwinNotificationDetails darwinNotificationDetails =
+        DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentBanner: true,
+          presentSound: true,
+        );
+    //this will define the notification detail for android
     final AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
           androidNotificationChannel.id.toString(),
@@ -46,9 +61,10 @@ class MessagesServices {
           // visibility: NotificationVisibility.public,
           // ticker: "ticker",
         );
-
+    //here we write the defined variables of notification details
     NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
+      iOS: darwinNotificationDetails,
     );
     String title =
         message.data['title'] ??
@@ -58,9 +74,11 @@ class MessagesServices {
         message.data['body'] ??
         message.notification?.body.toString() ??
         'Checking test notification body';
+
     Future.delayed(Duration.zero, () async {
+      //this will show the notification of title and body
       await flutterLocalNotificationsPlugin.show(
-        0,
+        1,
         title,
         body,
         notificationDetails,
@@ -68,6 +86,7 @@ class MessagesServices {
     });
   }
 
+  //here we initialize message for showing the notification
   void messageInit() {
     FirebaseMessaging.onMessage.listen((message) async {
       debugPrint(message.notification?.title.toString());
@@ -76,23 +95,38 @@ class MessagesServices {
     });
   }
 
+  //here we initialize the local notification with android and ios setting
   Future<void> initLocalNotification() async {
+    //this will define the notification setting for ios
+    DarwinInitializationSettings darwinInitializationSettings =
+        DarwinInitializationSettings(
+          requestCriticalPermission: true,
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
+    //this will define the notification setting for android
     AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings("@mipmap/ic_launcher");
+    //define the initialization setting for ios and android
     InitializationSettings initializationSettings = InitializationSettings(
       android: androidInitializationSettings,
+      iOS: darwinInitializationSettings,
     );
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveBackgroundNotificationResponse: (response) {},
     );
+    //this will used for platform specific implementation mean that On Android 8.0+ (API 26+) is required
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
         >()
         ?.createNotificationChannel(androidNotificationChannel);
   }
-  void messageShowing(){
+
+  //all function call for showing the notification to user from firebase app
+  void messageShowing() {
     messagePermission();
     messageInit();
     initLocalNotification();
