@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "1019230815479",
+    "project_id": "callmessage-d9f69",
+    "storage_bucket": "callmessage-d9f69.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019230815479:android:a602b14c515031ab30fff2",
+        "android_client_info": {
+          "package_name": "com.example.testing_purpose"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNfm4Cv8ipMkdqXhV0pfA_Mj-hOzoTksQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019230815479:android:cec9c2fdf1357b8c30fff2",
+        "android_client_info": {
+          "package_name": "com.safwanTech.message"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNfm4Cv8ipMkdqXhV0pfA_Mj-hOzoTksQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019230815479:android:85f1c94f57ca53d030fff2",
+        "android_client_info": {
+          "package_name": "com.tech.messages_like_call"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNfm4Cv8ipMkdqXhV0pfA_Mj-hOzoTksQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
