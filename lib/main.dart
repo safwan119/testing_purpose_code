@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      initialRoute: AppPages.stripePractiseView,
+      initialRoute: AppPages.dropdownView,
       getPages: AppPages.routes,
       initialBinding: InitialBinding(),
     );
